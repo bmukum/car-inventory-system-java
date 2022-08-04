@@ -33,20 +33,13 @@ public class HelloController implements Initializable {
     }
 
     public void onAddButtonClick(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/main/java/resources/desktopapp.desktopapp/part.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("part.fxml"));
         Stage addPartStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene addPartScene = new Scene(root, 600, 400);
         addPartStage.setTitle("Part Addition");
         addPartStage.setScene(addPartScene);
         addPartStage.show();
     }
-
-
-//    public void onAddButtonClick(ActionEvent actionEvent) {
-//        System.out.println("Add is clicked!");
-//        aL.setText("Item added");
-//    }
-
     public void onModifyButtonClick(ActionEvent actionEvent) {
         System.out.println("Modify is clicked!");
         mL.setText("Waiting to modify");
