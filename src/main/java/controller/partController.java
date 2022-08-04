@@ -1,4 +1,4 @@
-package desktopapp.desktopapp;
+package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
@@ -15,28 +16,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class partController implements Initializable {
-    @FXML
-    private Label cancelLabel;
-    @FXML
-    private Label inHouseLabel;
-    @FXML
-    private Label outSourcedLabel;
-    @FXML
-    private Label ID;
-    @FXML
-    private Label save;
+    public AnchorPane cancel;
+    public AnchorPane pane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         System.out.println("Add Parts");
-        cancelLabel.setText("Going back");
 
     }
 
     public void saveButtonClick(ActionEvent actionEvent) {
         System.out.print("Saved!");
-        save.setText("Saved!");
     }
 
     public void InHouseClick(ActionEvent actionEvent) {
@@ -46,9 +37,9 @@ public class partController implements Initializable {
     }
 
     public void cancelButtonClick(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/main.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 951, 617);
         stage.setTitle("Back to Main");
         stage.setScene(scene);
         stage.show();

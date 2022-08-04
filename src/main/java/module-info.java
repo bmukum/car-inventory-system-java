@@ -3,6 +3,10 @@ module desktopapp.desktopapp {
     requires javafx.fxml;
 
 
-    opens desktopapp.desktopapp to javafx.fxml;
-    exports desktopapp.desktopapp;
+    opens main to javafx.fxml;
+    exports main;
+    exports model;
+    opens model to javafx.fxml;
+    exports controller;
+    opens controller to javafx.fxml;
 }

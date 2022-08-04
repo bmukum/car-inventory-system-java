@@ -1,4 +1,4 @@
-package desktopapp.desktopapp;
+package controller;
 
 public class productController {
 }
