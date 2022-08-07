@@ -13,6 +13,7 @@ public class Sample {
     private int max;
 
     private static ObservableList<Sample> parts = FXCollections.observableArrayList();
+    private static ObservableList<Sample> products = FXCollections.observableArrayList();
 
     static {
         init();
@@ -25,6 +26,10 @@ public class Sample {
         this.stock = stock;
         this.min = min;
         this.max = max;
+    }
+
+    public static ObservableList<Sample> getProducts() {
+        return products;
     }
 
     public int getId() {return id;}
@@ -56,6 +61,12 @@ public class Sample {
             parts.add(new Sample(1, "Brakes", 4.99, 3, 2, 25));
             parts.add(new Sample(2, "Tires", 100.99, 4, 2, 90));
             parts.add(new Sample(3, "Wheel", 45.99, 0, 2, 5));
+        }
+
+        if (products.size() == 0) {
+            products.add(new Sample(4, "Throttle", 456.99, 1, 2, 6));
+            products.add(new Sample(5, "Knots", 1.99, 20, 2, 50));
+            products.add(new Sample(6, "Frame", 2.99, 4, 2, 12));
         }
     }
 

@@ -99,9 +99,98 @@ public class mainController implements Initializable {
 
     public void getPartSearch(ActionEvent actionEvent) {
         String queryString = partTF.getText();
+
+        ObservableList<Sample> partName = searchByPartName(queryString);
+
+        if(partName.size() == 0){
+            try {
+                int Id = Integer.parseInt(queryString);
+                Sample part = getPartById(Id);
+                if (part != null) {
+                    partName.add(part);
+                }
+            }
+            catch (NumberFormatException e){
+                //ingore it
+            }
+        }
+
+        partTable.setItems(partName);
+
+        partTF.setText("");
     }
+
+    private ObservableList<Sample> searchByPartName(String partialName) {
+        ObservableList<Sample> givenParts = FXCollections.observableArrayList();
+
+        ObservableList<Sample> allParts = Sample.getParts();
+
+        for(Sample part : allParts){
+            if(part.getName().contains(partialName)) {
+                givenParts.add(part);
+            }
+        }
+
+        return givenParts;
+    }
+
+    private ObservableList<Sample> searchByProductName(String partialName) {
+        ObservableList<Sample> givenProducts = FXCollections.observableArrayList();
+
+        ObservableList<Sample> allProducts = Sample.getProducts();
+
+        for(Sample part : allProducts){
+            if(part.getName().contains(partialName)) {
+                givenProducts.add(part);
+            }
+        }
+
+        return givenProducts;
+    }
+
+    private Sample getPartById(int Id){
+        ObservableList<Sample> allParts = Sample.getParts();
+        for(int i=0; i < allParts.size(); i++){
+            Sample part = allParts.get(i);
+            if(part.getId() == Id){
+                return part;
+            }
+        }
+        return null;
+    }
+
+    private Sample getProductById(int Id){
+        ObservableList<Sample> allProducts = Sample.getProducts();
+        for(int i=0; i < allProducts.size(); i++){
+            Sample product = allProducts.get(i);
+            if(product.getId() == Id){
+                return product;
+            }
+        }
+        return null;
+    }
+
+
 
     public void getProductSearch(ActionEvent actionEvent) {
-    }
+        String queryString = productTF.getText();
 
+        ObservableList<Sample> productName = searchByProductName(queryString);
+
+        if (productName.size() == 0) {
+            try {
+                int Id = Integer.parseInt(queryString);
+                Sample product = getProductById(Id);
+                if (product != null) {
+                    productName.add(product);
+                }
+            } catch (NumberFormatException e) {
+                //ingore it
+            }
+        }
+
+        productTable.setItems(productName);
+
+        productTF.setText("");
+    }
 }
