@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
@@ -18,6 +19,8 @@ import java.util.ResourceBundle;
 public class partController implements Initializable {
     public AnchorPane cancel;
     public AnchorPane pane;
+    public RadioButton partInHouse;
+    public RadioButton partOutSourced;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -43,6 +46,12 @@ public class partController implements Initializable {
         stage.setTitle("Back to Main");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void onPartInHouse(ActionEvent actionEvent) {
+    }
+
+    public void onPartOutSourced(ActionEvent actionEvent) {
     }
 }
 
