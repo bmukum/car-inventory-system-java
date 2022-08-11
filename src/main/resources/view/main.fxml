@@ -51,16 +51,6 @@
             </TableView>
          </children>
       </StackPane>
-      <StackPane prefHeight="99.0" prefWidth="476.0" GridPane.rowIndex="2">
-         <children>
-            <Button fx:id="addPart" mnemonicParsing="false" onAction="#onAddPart" text="Add Part" />
-         </children>
-      </StackPane>
-      <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <children>
-            <Button fx:id="addProduct" mnemonicParsing="false" onAction="#onAddProduct" text="Add Product" />
-         </children>
-      </StackPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
             <Label layoutX="113.0" layoutY="38.0" text="Parts">
@@ -81,6 +71,21 @@
             </Label>
             <TextField fx:id="productTF" layoutX="243.0" layoutY="40.0" prefHeight="25.0" prefWidth="189.0" promptText="Search a Product ID or name" />
             <Button fx:id="productSearchButton" layoutX="456.0" layoutY="40.0" mnemonicParsing="false" onAction="#getProductSearch" text="search" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <children>
+            <Button fx:id="addPart" layoutX="69.0" layoutY="34.0" mnemonicParsing="false" onAction="#onAddPart" text="Add" />
+            <Button fx:id="modifyPart" layoutX="186.0" layoutY="34.0" mnemonicParsing="false" onAction="#onModifyPart" text="Modify" />
+            <Button fx:id="deletePart" layoutX="307.0" layoutY="34.0" mnemonicParsing="false" onAction="#onDeletePart" text="Delete" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <children>
+            <Button fx:id="addProduct" layoutX="125.0" layoutY="34.0" mnemonicParsing="false" onAction="#onAddProduct" text="Add" />
+            <Button fx:id="modifyProduct" layoutX="231.0" layoutY="34.0" mnemonicParsing="false" onAction="#onModifyProduct" text="Modify" />
+            <Button fx:id="deleteProduct" layoutX="332.0" layoutY="34.0" mnemonicParsing="false" onAction="#onDeleteProduct" text="Delete" />
+            <Button fx:id="exit" layoutX="534.0" layoutY="59.0" mnemonicParsing="false" onAction="#onExit" text="Exit" />
          </children>
       </AnchorPane>
    </children>
