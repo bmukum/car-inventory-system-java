@@ -12,6 +12,23 @@ import model.Product;
 
 import java.io.IOException;
 
+/**
+ * Main class.
+ */
+
+/**
+ *
+ * @author Brandon Mukum
+ *
+ * FUTURE ENHANCEMENTS
+ * The program would be better if the following are implemented:
+ * - Having the app connected to a database where parts and products can be stored.
+ * - Reduce the changes of typing in the wrong part name implementing a method to auto-complete the name when the user starts typing.
+ * - Add a method/option plus confirmation for the product's list of associated parts be deleted when the product has to deleted.
+ * This would make it easy to delete products, instead of having to modify that product and removing the parts, before
+ * returning to the main screen to delete the product.
+ */
+
 public class main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {

@@ -1,4 +1,5 @@
 package controller;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,10 +15,20 @@ import model.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static model.Inventory.lookUpPart;
 import static model.Inventory.lookUpProduct;
+
+/**
+ * Main controller file that handles operations on the program's main screen.
+ */
+
+/**
+ *
+ * @author Brandon Mukum
+ */
 
 public class mainController implements Initializable {
     public TableView partTable;
@@ -45,8 +56,10 @@ public class mainController implements Initializable {
     public Button modifyProduct;
     public Button deleteProduct;
     public Button exit;
+    public Button newDelete;
 
-    private ObservableList<Part> allParts = FXCollections.observableArrayList();
+//    private ObservableList<Part> allParts = FXCollections.observableArrayList();
+
     private ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
     private static boolean firstTime = true;
@@ -63,16 +76,20 @@ public class mainController implements Initializable {
 
         Inventory.addPart(sampleOutsourced);
     }
+
+    /**
+     * The constructor method that initializes the main screen.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        int id = 0;
-        String name = "";
-        int stock = 0;
-        int min = 0;
-        int max = 0;
+//        int id = 0;
+//        String name = "";
+//        int stock = 0;
+//        int min = 0;
+//        int max = 0;
         System.out.println("Program is initialized");
 
-        addTestData();
+       // addTestData();
 
         partTable.setItems(Inventory.getAllParts());
 
@@ -82,25 +99,40 @@ public class mainController implements Initializable {
         partStockCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partMinCol.setCellValueFactory(new PropertyValueFactory<>("min"));
         partMaxCol.setCellValueFactory(new PropertyValueFactory<>("max"));
+
+        productTable.setItems(Inventory.getAllProducts());
+        productIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        productPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        productStockCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        productMinCol.setCellValueFactory(new PropertyValueFactory<>("min"));
+        productMaxCol.setCellValueFactory(new PropertyValueFactory<>("max"));
     }
 
-    public void onDeleteButtonClick(ActionEvent actionEvent) {
-        System.out.println("Modify is clicked!");
-    }
-
-    public void onExitButtonClick(ActionEvent actionEvent) {
-        System.out.println("Exit is clicked!");
-    }
-
+    /**
+     * The method that takes the user to the add product screen when it's add button is clicked
+     */
     public void onAddProduct(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/addproduct.fxml"));
-        Stage addPartStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene addPartScene = new Scene(root, 1377, 683);
-        addPartStage.setTitle("Product Addition");
-        addPartStage.setScene(addPartScene);
-        addPartStage.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/addProduct.fxml"));
+            Parent root = loader.load();
+            addProductController apc = loader.getController();
+           // apc.load();
+
+            Stage addPartStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Scene addPartScene = new Scene(root, 1300, 690);
+            addPartStage.setTitle("Product Addition");
+            addPartStage.setScene(addPartScene);
+            addPartStage.show();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * The method that takes the user to the add part screen when it's add button is clicked
+     */
     public void onAddPart(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/addpart.fxml"));
         Stage addPartStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -110,6 +142,9 @@ public class mainController implements Initializable {
         addPartStage.show();
     }
 
+    /**
+     * The method that searches for a part name or id
+     */
     public void getPartSearch(ActionEvent actionEvent) {
         String queryString = partTF.getText();
 
@@ -124,7 +159,11 @@ public class mainController implements Initializable {
                 }
             }
             catch (NumberFormatException e){
-                //ingore it
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setContentText("No part found");
+                alert.showAndWait();
+                return;
             }
         }
 
@@ -132,6 +171,10 @@ public class mainController implements Initializable {
 
         partTF.setText("");
     }
+
+    /**
+     * The method that searches for a product name or id.
+     */
     public void getProductSearch(ActionEvent actionEvent) {
         String queryString = productTF.getText();
 
@@ -145,7 +188,11 @@ public class mainController implements Initializable {
                     productName.add(product);
                 }
             } catch (NumberFormatException e) {
-                //ingore it
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setContentText("No part found");
+                alert.showAndWait();
+                return;
             }
         }
 
@@ -154,24 +201,63 @@ public class mainController implements Initializable {
         productTF.setText("");
     }
 
-    public void onExit(ActionEvent actionEvent) {
+    /**
+     * This method closes the application when the exit button is clicked.
+     */
+    public void onExit(ActionEvent actionEvent) throws IOException {
+        Platform.exit();
     }
 
+    /**
+     * Method that deletes a product selected by a user.
+     */
     public void onDeleteProduct(ActionEvent actionEvent) {
+        Product selectedProduct = (Product) productTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setContentText("Please select a product to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will delete the selected Product!");
+        Optional<ButtonType> results = alert.showAndWait();
+
+        if(results.isPresent() && results.get() == ButtonType.OK){
+            if (selectedProduct.getAllAssociatedParts().size() != 0) {
+                Alert newAlert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setContentText("This product has parts. Delete them first.");
+                alert.showAndWait();
+                return;
+            }
+            Inventory.deleteProduct(selectedProduct);
+        }
     }
 
+    /**
+     * This method takes the user to a screen that allows him/her to modify the selected product
+     */
     public void onModifyProduct(ActionEvent actionEvent) throws IOException {
-       // playAction();
-        Part selectedPart = (Part) partTable.getSelectionModel().getSelectedItem();
+        Product selectedProduct = (Product) productTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setContentText("Please select a product to modify.");
+            alert.showAndWait();
+            return;
+        }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/modifyPart.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/modifyProduct.fxml"));
             Parent root = loader.load();
-            modifyPartController mpe = loader.getController();
-            mpe.loadPart((Part) selectedPart);
+            modifyProductController mpc = loader.getController();
+            int selectedProductIndex = productTable.getSelectionModel().getSelectedIndex();
+            mpc.loadProduct(selectedProduct, selectedProductIndex);
 
             Stage addPartStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             Scene addPartScene = new Scene(root, 1300, 690);
-            addPartStage.setTitle("Product Addition");
+            addPartStage.setTitle("Product Modification");
             addPartStage.setScene(addPartScene);
             addPartStage.show();
         }
@@ -180,15 +266,53 @@ public class mainController implements Initializable {
         }
     }
 
+    /**
+     * Method that deletes a part selected by the user.
+     */
     public void onDeletePart(ActionEvent actionEvent) {
+        Part selectedPart = (Part) partTable.getSelectionModel().getSelectedItem();
+        if (selectedPart == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setContentText("Please select a part to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will delete the selected Part!");
+        Optional<ButtonType> results = alert.showAndWait();
+
+        if (results.isPresent() && results.get() == ButtonType.OK) {
+            Inventory.deletePart(selectedPart);
+            System.out.print("test");
+        }
     }
 
-    public void onModifyPart(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/modifypart.fxml"));
-        Stage addPartStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene addPartScene = new Scene(root, 800, 690);
-        addPartStage.setTitle("Part Modification");
-        addPartStage.setScene(addPartScene);
-        addPartStage.show();
+        /**
+         * The method that takes the user to the modify part screen when it's modify button is clicked
+         */
+        public void onModifyPart (ActionEvent actionEvent) throws IOException {
+            Part selectedPart = (Part) partTable.getSelectionModel().getSelectedItem();
+            if (selectedPart == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setContentText("Please select a part to modify.");
+                alert.showAndWait();
+                return;
+            }
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/modifyPart.fxml"));
+                Parent root = loader.load();
+                modifyPartController mpe = loader.getController();
+                mpe.loadPart(selectedPart);
+
+                Stage addPartStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Scene addPartScene = new Scene(root, 1300, 690);
+                addPartStage.setTitle("Product Addition");
+                addPartStage.setScene(addPartScene);
+                addPartStage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
-}

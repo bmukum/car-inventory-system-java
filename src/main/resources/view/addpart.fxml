@@ -28,7 +28,7 @@
       <RadioButton fx:id="partOutSourced" layoutX="390.0" layoutY="25.0" mnemonicParsing="false" onAction="#onPartOutSourced" text="Outsourced" toggleGroup="$tgroup" />
       <Label layoutX="103.0" layoutY="67.0" prefHeight="25.0" prefWidth="30.0" text="ID" />
       <Label layoutX="103.0" layoutY="107.0" prefHeight="25.0" prefWidth="46.0" text="Name" />
-      <Label layoutX="106.0" layoutY="144.0" prefHeight="25.0" prefWidth="40.0" text="Stock" />
+      <Label layoutX="106.0" layoutY="144.0" prefHeight="25.0" prefWidth="40.0" text="Inv" />
       <Label layoutX="103.0" layoutY="179.0" prefHeight="25.0" prefWidth="30.0" text="Price" />
       <Label layoutX="103.0" layoutY="222.0" prefHeight="25.0" prefWidth="30.0" text="Min" />
       <Label layoutX="410.0" layoutY="222.0" prefHeight="25.0" prefWidth="24.0" text="Max" />
