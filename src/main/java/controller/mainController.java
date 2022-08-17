@@ -56,9 +56,7 @@ public class mainController implements Initializable {
     public Button modifyProduct;
     public Button deleteProduct;
     public Button exit;
-    public Button newDelete;
 
-//    private ObservableList<Part> allParts = FXCollections.observableArrayList();
 
     private ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
@@ -82,11 +80,6 @@ public class mainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        int id = 0;
-//        String name = "";
-//        int stock = 0;
-//        int min = 0;
-//        int max = 0;
         System.out.println("Program is initialized");
 
        // addTestData();
